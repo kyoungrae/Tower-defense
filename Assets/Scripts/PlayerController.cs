@@ -20,13 +20,23 @@ public class PlayerController : MonoBehaviour
     private float nextFireTime = 0f;
     [SerializeField] private float bulletDamage = 1f; // Initial bullet damage
 
+    // 자동 사격 타이머
+    private float fireTimer;
+
     // Event for coin collection
     public static event Action<int> OnCoinCollected;
 
     void Update()
     {
         HandleMovementInput();
-        HandleShootingInput();
+
+        // --- 자동 사격 로직 추가 ---
+        fireTimer += Time.deltaTime;
+        if (fireTimer >= fireRate) // fireRate(발사 속도) 간격마다 발사
+        {
+            Shoot();
+            fireTimer = 0f; // 타이머 초기화
+        }
     }
 
     void FixedUpdate()
@@ -60,28 +70,6 @@ public class PlayerController : MonoBehaviour
     private void MovePlayer()
     {
         transform.Translate(movementInput * moveSpeed * Time.fixedDeltaTime);
-    }
-
-    private void HandleShootingInput()
-    {
-        // PC Shooting (Mouse Left Click)
-        if (Input.GetMouseButton(0) && Time.time >= nextFireTime)
-        {
-            Shoot();
-            nextFireTime = Time.time + fireRate;
-        }
-
-        // Mobile Touch Shooting (Placeholder, assuming touch anywhere for shooting if not moving)
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            // If not moving via touch, assume it's a tap to shoot
-            if (touch.phase == TouchPhase.Began && movementInput == Vector2.zero && Time.time >= nextFireTime)
-            {
-                 Shoot();
-                 nextFireTime = Time.time + fireRate;
-            }
-        }
     }
 
     private void Shoot()
