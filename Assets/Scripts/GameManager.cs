@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        SetState(GameState.WaveInProgress);
+        SetState(GameState.Ready);
     }
 
     public void SetState(GameState newState)
