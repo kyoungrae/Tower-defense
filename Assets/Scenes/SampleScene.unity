@@ -437,6 +437,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &848758761 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7537577750678938039, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
+  m_PrefabInstance: {fileID: 1036394499}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &1008195150
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,6 +558,75 @@ Transform:
   - {fileID: 1864739912}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1036394499
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4261015210622353509, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
+      propertyPath: healthText
+      value: 
+      objectReference: {fileID: 848758761}
+    - target: {fileID: 4262155717815239746, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5620388587946708916, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
+      propertyPath: m_Name
+      value: Barricade
+      objectReference: {fileID: 0}
+    - target: {fileID: 6382129651164512594, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.006
+      objectReference: {fileID: 0}
+    - target: {fileID: 6382129651164512594, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.511
+      objectReference: {fileID: 0}
+    - target: {fileID: 6382129651164512594, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6382129651164512594, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6382129651164512594, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6382129651164512594, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6382129651164512594, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6382129651164512594, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6382129651164512594, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6382129651164512594, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788867749977976421, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 626c1bfc6a4664f8182c9d670190d486, type: 3}
 --- !u!1 &1285810613
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,8 +696,6 @@ MonoBehaviour:
     enemyHealthMultiplier: 1
   enemyPrefab: {fileID: 5100164800630755357, guid: 6b035d267f35f48738ac5e7d27910202, type: 3}
   spawnPoint: {fileID: 1352331571}
-  minXSpawn: -8
-  maxXSpawn: 8
 --- !u!114 &1285810617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -630,6 +708,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2177fe8d205c4888b4c730e0832ea71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  barricadePrefab: {fileID: 0}
+  barricadeSpawnPoint: {fileID: 0}
 --- !u!4 &1285810618
 Transform:
   m_ObjectHideFlags: 0
@@ -792,3 +872,4 @@ SceneRoots:
   - {fileID: 1285810618}
   - {fileID: 1352331571}
   - {fileID: 219697899}
+  - {fileID: 1036394499}
