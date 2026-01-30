@@ -22,7 +22,8 @@ public class GameManager : MonoBehaviour
     public static event Action OnUpgradeTimeStarted;
     public static event Action OnGameOver;
 
-    [Header("Game Objects")年纪    [SerializeField] private GameObject barricadePrefab; // 바리케이드 프리팹
+    [Header("Game Objects")]
+    [SerializeField] private GameObject barricadePrefab; // 바리케이드 프리팹
     [SerializeField] private Transform barricadeSpawnPoint; // 바리케이드 스폰 위치
 
     void Awake()
