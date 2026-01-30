@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     public const string BULLET_TAG = "Bullet";
     public const string COIN_TAG = "Coin";
 
+    private float screenMinX, screenMaxX, screenMinY, screenMaxY;
+    private float playerHalfWidth, playerHalfHeight;
+
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;
     private Vector2 movementInput;
@@ -32,16 +35,58 @@ public class PlayerController : MonoBehaviour
 
         // --- 자동 사격 로직 추가 ---
         fireTimer += Time.deltaTime;
-        if (fireTimer >= fireRate) // fireRate(발사 속도) 간격마다 발사
+        if (fireTimer >= fireRate)
         {
             Shoot();
-            fireTimer = 0f; // 타이머 초기화
+            fireTimer = 0f;
+        }
+    }
+
+    void Start()
+    {
+        // 화면 경계 계산
+        Vector3 screenBottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 screenTopRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
+
+        screenMinX = screenBottomLeft.x;
+        screenMaxX = screenTopRight.x;
+        screenMinY = screenBottomLeft.y;
+        screenMaxY = screenTopRight.y;
+
+        // 플레이어 크기 계산 (SpriteRenderer 또는 Collider2D 사용)
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            playerHalfWidth = spriteRenderer.bounds.extents.x;
+            playerHalfHeight = spriteRenderer.bounds.extents.y;
+        }
+        else
+        {
+            // SpriteRenderer가 없다면 Collider2D 사용 (있을 경우)
+            Collider2D collider = GetComponent<Collider2D>();
+            if (collider != null)
+            {
+                playerHalfWidth = collider.bounds.extents.x;
+                playerHalfHeight = collider.bounds.extents.y;
+            }
+            else
+            {
+                // 기본값 설정 (수동 조정 필요)
+                Debug.LogWarning("PlayerController: No SpriteRenderer or Collider2D found. Player bounds might be inaccurate.");
+                playerHalfWidth = 0.5f; // 임시 기본값
+                playerHalfHeight = 0.5f; // 임시 기본값
+            }
         }
     }
 
     void FixedUpdate()
     {
         MovePlayer();
+        // 플레이어를 화면 경계 내로 고정
+        Vector3 clampedPosition = transform.position;
+        clampedPosition.x = Mathf.Clamp(clampedPosition.x, screenMinX + playerHalfWidth, screenMaxX - playerHalfWidth);
+        clampedPosition.y = Mathf.Clamp(clampedPosition.y, screenMinY + playerHalfHeight, screenMaxY - playerHalfHeight);
+        transform.position = clampedPosition;
     }
 
     private void HandleMovementInput()

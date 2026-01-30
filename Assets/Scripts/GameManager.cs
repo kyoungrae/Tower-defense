@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     public static event Action OnUpgradeTimeStarted;
     public static event Action OnGameOver;
 
+    [Header("Game Objects")年纪    [SerializeField] private GameObject barricadePrefab; // 바리케이드 프리팹
+    [SerializeField] private Transform barricadeSpawnPoint; // 바리케이드 스폰 위치
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -37,6 +40,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        if (barricadePrefab != null && barricadeSpawnPoint != null)
+        {
+            Instantiate(barricadePrefab, barricadeSpawnPoint.position, Quaternion.identity);
+        }
         SetState(GameState.WaveInProgress);
     }
 

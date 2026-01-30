@@ -19,6 +19,9 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private List<WaveData> waveDatas; // 1~10단계 웨이브 데이터
     [SerializeField] private GameObject enemyPrefab; // 스폰할 좀비 프리팹
     [SerializeField] private Transform spawnPoint; // 좀비 스폰 위치
+    // X 스폰 위치는 화면 경계에 따라 자동으로 설정됩니다.
+    private float minXSpawn; // 최소 X 스폰 위치 (자동 계산)
+    private float maxXSpawn; // 최대 X 스폰 위치 (자동 계산)
 
     private int currentWaveIndex = -1; // 현재 웨이브 인덱스 (0부터 시작)
     private int enemiesRemainingInWave; // 현재 웨이브에 남은 좀비 수
@@ -55,6 +58,23 @@ public class WaveManager : MonoBehaviour
 
     void Start()
     {
+        // 화면의 좌우 경계를 기준으로 minXSpawn과 maxXSpawn을 자동으로 설정
+        // ViewportToWorldPoint는 뷰포트 좌표(0,0 ~ 1,1)를 월드 좌표로 변환합니다.
+        // x=0은 화면의 왼쪽, x=1은 화면의 오른쪽입니다.
+        Vector3 screenLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
+        Vector3 screenRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0));
+
+        minXSpawn = screenLeft.x;
+        maxXSpawn = screenRight.x;
+
+        // 적 프리팹의 절반 너비를 고려하여 스폰 범위 조정 (선택 사항)
+        // enemyPrefab.GetComponent<Collider2D>() 또는 Renderer의 bounds.extents.x 사용
+        // 현재는 Enemy 프리팹의 크기를 알 수 없으므로, 필요하다면 여기에 추가 로직을 구현하세요.
+        // 예: float enemyHalfWidth = enemyPrefab.GetComponent<SpriteRenderer>().bounds.extents.x;
+        // minXSpawn += enemyHalfWidth;
+        // maxXSpawn -= enemyHalfWidth;
+
+
         // 초기 웨이브 UI 업데이트
         OnWaveUpdated?.Invoke(currentWaveIndex + 1, waveDatas.Count);
         OnEnemiesRemainingUpdated?.Invoke(0);
@@ -90,7 +110,8 @@ public class WaveManager : MonoBehaviour
     {
         for (int i = 0; i < waveData.enemyCount; i++)
         {
-            GameObject enemyGO = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+            Vector3 spawnPosition = new Vector3(UnityEngine.Random.Range(minXSpawn, maxXSpawn), spawnPoint.position.y, spawnPoint.position.z);
+            GameObject enemyGO = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
             Enemy enemy = enemyGO.GetComponent<Enemy>();
             if (enemy != null)
             {
