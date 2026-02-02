@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db5804c875e84a0184bb1b68bf927bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
-  bulletSpeed: 10
+  bulletSpeed: 100
 --- !u!61 &1491353411301875142
 BoxCollider2D:
   m_ObjectHideFlags: 0

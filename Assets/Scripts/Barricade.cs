@@ -15,6 +15,7 @@ public class Barricade : MonoBehaviour, IHealth
     {
         currentHealth = maxHealth;
         UpdateHealthUI(); // 초기 체력 UI 업데이트
+        Debug.Log($"Barricade: {gameObject.name} initialized with HP: {currentHealth}"); // 초기 HP 값 로그
     }
 
     public void TakeDamage(float amount)

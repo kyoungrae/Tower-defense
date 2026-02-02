@@ -23,6 +23,16 @@ public class PlayerController : MonoBehaviour
     private float nextFireTime = 0f;
     [SerializeField] private float bulletDamage = 1f; // Initial bullet damage
 
+    public enum WeaponType
+    {
+        Normal,
+        MachineGun,
+        Shotgun
+    }
+
+    [Header("Weapon")]
+    [SerializeField] private WeaponType currentWeapon = WeaponType.Normal;
+
     // 자동 사격 타이머
     private float fireTimer;
 
@@ -33,9 +43,24 @@ public class PlayerController : MonoBehaviour
     {
         HandleMovementInput();
 
-        // --- 자동 사격 로직 추가 ---
+        // --- 무기 전환 (테스트용 키 입력) ---
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            currentWeapon = WeaponType.Normal;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            currentWeapon = WeaponType.MachineGun;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            currentWeapon = WeaponType.Shotgun;
+        }
+
+        // --- 자동 사격 로직 ---
         fireTimer += Time.deltaTime;
-        if (fireTimer >= fireRate)
+        float currentFireRate = GetCurrentFireRate();
+        if (fireTimer >= currentFireRate)
         {
             Shoot();
             fireTimer = 0f;
@@ -119,15 +144,60 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot()
     {
-        if (bulletPrefab != null && firePoint != null)
+        if (bulletPrefab == null || firePoint == null) return;
+
+        switch (currentWeapon)
         {
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-            // Assuming Bullet script has a SetDamage method
-            Bullet bulletScript = bullet.GetComponent<Bullet>();
-            if (bulletScript != null)
-            {
-                bulletScript.SetDamage(bulletDamage);
-            }
+            case WeaponType.Normal:
+                ShootSingle(bulletDamage, firePoint.rotation);
+                break;
+            case WeaponType.MachineGun:
+                // 더 빠른 연사 + 약간 낮은 데미지
+                ShootSingle(bulletDamage * 0.7f, firePoint.rotation);
+                break;
+            case WeaponType.Shotgun:
+                ShootShotgun();
+                break;
+        }
+    }
+
+    private void ShootSingle(float damage, Quaternion rotation)
+    {
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, rotation);
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+        if (bulletScript != null)
+        {
+            bulletScript.SetDamage(damage);
+        }
+    }
+
+    private void ShootShotgun()
+    {
+        int bulletCount = 5;
+        float spreadAngle = 10f;
+
+        float startAngle = -spreadAngle * (bulletCount - 1) / 2f;
+
+        for (int i = 0; i < bulletCount; i++)
+        {
+            float angle = startAngle + spreadAngle * i;
+            Quaternion rot = firePoint.rotation * Quaternion.Euler(0f, 0f, angle);
+            // 샷건은 한 발당 데미지를 조금 낮춤
+            ShootSingle(bulletDamage * 0.6f, rot);
+        }
+    }
+
+    private float GetCurrentFireRate()
+    {
+        switch (currentWeapon)
+        {
+            case WeaponType.MachineGun:
+                return Mathf.Max(0.05f, fireRate * 0.3f); // 기본보다 훨씬 빠르게
+            case WeaponType.Shotgun:
+                return fireRate * 1.8f; // 기본보다 느리게
+            case WeaponType.Normal:
+            default:
+                return fireRate;
         }
     }
 
