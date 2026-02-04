@@ -2,44 +2,33 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    // Tags
-    public const string ENEMY_TAG = "Enemy";
-    public const string PLAYER_TAG = "Player";
-    public const string BULLET_TAG = "Bullet";
-    public const string COIN_TAG = "Coin";
-
-    [SerializeField] private float bulletSpeed = 10f;
-    private float damage;
+    [SerializeField] private float speed = 10f; // 총알 이동 속도
+    [SerializeField] private float damage = 10f; // 총알 공격력
 
     void Update()
     {
-        // 직진 이동
-        transform.Translate(Vector2.up * bulletSpeed * Time.deltaTime);
+        // 총알을 위로 이동
+        transform.Translate(Vector3.up * speed * Time.deltaTime);
     }
 
-    public void SetDamage(float amount)
+    public void SetDamage(float newDamage) // 이 메서드를 추가합니다
     {
-        damage = amount;
+        damage = newDamage;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        // Enemy와 충돌 시 데미지 전달 후 소멸
-        if (other.CompareTag(ENEMY_TAG))
+        // Enemy 태그를 가진 오브젝트와 충돌 시
+        if (other.CompareTag("Enemy"))
         {
             IHealth enemyHealth = other.GetComponent<IHealth>();
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(damage);
+                enemyHealth.TakeDamage(damage); // 적에게 데미지 적용
             }
-            Destroy(gameObject); // 총알 소멸
+            Destroy(gameObject); // 총알 제거
         }
-    }
-
-    // 일정 시간 뒤 자동 소멸 (화면 밖으로 나가는 경우 등)
-    // 필요에 따라 Collider나 Rigidbody 설정 후 AddForce로 발사하거나, 카메라 범위 밖에서 Destroy 하는 로직 추가
-    void OnBecameInvisible()
-    {
-        Destroy(gameObject);
+        // 화면 밖으로 나가면 총알 제거 (Optional: Bounds Check)
+        // ... (필요하다면 화면 경계 체크 로직 추가)
     }
 }
