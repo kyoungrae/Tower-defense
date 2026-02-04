@@ -1597,7 +1597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 5
-  bulletPrefab: {fileID: 5766015638104885794, guid: 8e2d4b76459474259b4804d96c451fed, type: 3}
+  bulletPrefab: {fileID: 4946549463975193297, guid: 5e9f34043b9ca47e6944d45968c2a9e5, type: 3}
   firePoint: {fileID: 1864739912}
   fireRate: 0.5
   bulletDamage: 1
@@ -2271,15 +2271,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9150943, g: 0.7712611, b: 0.45323068, a: 1}
+  m_Color: {r: 1, g: 0.8443396, b: 0.8443396, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -393672568197353540, guid: 10cacbb4ed77c41ed87c57cd430944fb, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
