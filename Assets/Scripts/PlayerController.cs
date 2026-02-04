@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour
     private float nextFireTime = 0f;
     [SerializeField] private float bulletDamage = 1f; // Initial bullet damage
 
+    [Header("Bullet Offset")]
+    [SerializeField] private Vector2 fireOffset; // 총알 발사 위치 오프셋
+
     public enum WeaponType
     {
         Normal,
@@ -163,7 +166,9 @@ public class PlayerController : MonoBehaviour
 
     private void ShootSingle(float damage, Quaternion rotation)
     {
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, rotation);
+        // firePoint.position에 fireOffset을 더하여 총알 위치 조정
+        Vector3 bulletSpawnPosition = firePoint.position + (Vector3)fireOffset;
+        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPosition, rotation);
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         if (bulletScript != null)
         {

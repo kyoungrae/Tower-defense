@@ -9,12 +9,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c35eaa6e18111402eae75a342f62a622, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.17160395
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c35eaa6e18111402eae75a342f62a622, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.13741721
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c35eaa6e18111402eae75a342f62a622, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.26813117
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c35eaa6e18111402eae75a342f62a622, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.098
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c35eaa6e18111402eae75a342f62a622, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.917
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c35eaa6e18111402eae75a342f62a622, type: 3}
       propertyPath: m_LocalPosition.z
@@ -128,11 +140,11 @@ BoxCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.16, y: 0.16}
+    newSize: {x: 1.28, y: 1.28}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
@@ -219,7 +231,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0

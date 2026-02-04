@@ -1,6 +1,7 @@
 using UnityEngine;
 using System; // For Action event
 using TMPro; // For TextMeshPro
+using UnityEngine.UI; // UI 요소를 사용하기 위해 추가
 
 public interface IHealth
 {
@@ -20,7 +21,8 @@ public abstract class Enemy : MonoBehaviour, IHealth
     [SerializeField] protected float moveSpeed = 1f; // 이동 속도
     [SerializeField] protected int dropCoinAmount = 1; // 드랍 코인 양
     [SerializeField] protected GameObject coinPrefab; // 스폰할 코인 프리팹
-    [SerializeField] private TextMeshProUGUI healthText; // 체력을 표시할 TextMeshPro UI
+    // [SerializeField] private TextMeshProUGUI healthText; // 체력을 표시할 TextMeshPro UI (이제 Slider 사용)
+    [SerializeField] private Slider healthSlider; // 체력 게이지 Slider
 
     [Header("Attack Stats")]
     [SerializeField] protected float attackDamage = 10f; // 공격력
@@ -35,7 +37,10 @@ public abstract class Enemy : MonoBehaviour, IHealth
     // Event for enemy death (can be used by GameManager/WaveManager)
     public static event Action OnEnemyDied;
 
+    [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 1.5f, 0); // 체력바 상대 위치 오프셋
+
     protected virtual void Start()
+    
     {
         currentHealth = maxHealth;
         UpdateHealthUI(); // 초기 체력 UI 업데이트
@@ -73,13 +78,30 @@ public abstract class Enemy : MonoBehaviour, IHealth
         }
     }
 
-    protected void UpdateHealthUI()
+    protected virtual void LateUpdate()
     {
-        if (healthText != null)
+        if (healthSlider != null)
         {
-            healthText.text = Mathf.CeilToInt(currentHealth).ToString(); // 정수형으로 반올림하여 표시
+            // 좀비의 월드 위치에 오프셋을 더하여 체력바 위치 설정
+            healthSlider.transform.position = transform.position + healthBarOffset;
+            // 체력바가 항상 카메라를 바라보게 하려면 추가 (필요 시)
+            // healthSlider.transform.rotation = Camera.main.transform.rotation;
         }
     }
+
+    protected void UpdateHealthUI()
+    {
+        // Slider 값 업데이트
+        if (healthSlider != null)
+        {
+            healthSlider.value = currentHealth / maxHealth;
+        }
+        // 기존 TextMeshProUGUI 코드는 필요 없으면 삭제하거나 주석 처리
+        // if (healthText != null)
+        // {
+        //     healthText.text = Mathf.CeilToInt(currentHealth).ToString();
+        // }
+        }
 
     protected virtual void Attack()
     {
